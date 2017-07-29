@@ -36,6 +36,8 @@ class ArticleServiceImpl(
 
         logger.info("PathParam: {}", pathParam)
 
+        // TODO if content == "*.ext" then serve raw
+
         val path = Strings2.dropFirst(pathParam, "/")
 
         val settingPath = base.resolve(path + ".json")
@@ -58,6 +60,10 @@ class ArticleServiceImpl(
     override fun serveRaw(pathParam: String): String {
         val path = Strings2.dropFirst(pathParam, "/")
         val contentPath = base.resolve(path)
+        if (!Files.exists(contentPath)) {
+            logger.info("File not exists: {}", contentPath)
+            return ""
+        }
         logger.info("Read content: {}", contentPath.toAbsolutePath().toString())
         return read(contentPath)
     }

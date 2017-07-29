@@ -17,12 +17,14 @@
 <body>
 
 <div>
-    <div>
+    <div class="container root">
         <!--/*@thymesVar id="site" type="java.lang.String"*/-->
-        <p th:text="${site}" />
+        <a href="/"><h2 class="site" th:text="${site}" /></a>
+        <!--/*@thymesVar id="title" type="java.lang.String"*/-->
+        <h1 th:text="${title}" />
+        <!--/*@thymesVar id="content" type="java.lang.String"*/-->
+        <div th:utext="${content}" />
     </div>
-    <!--/*@thymesVar id="content" type="java.lang.String"*/-->
-    <div th:utext="${content}" />
 </div>
 
 </body>

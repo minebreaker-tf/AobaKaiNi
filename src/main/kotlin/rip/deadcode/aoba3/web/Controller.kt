@@ -29,7 +29,7 @@ class Controller(
         val url = request.requestURI
         val article = articleService.serve(if (url.isEmpty() || url == "/") "/index" else url)
 
-        val siteTitle = siteConfigurationService.getSetting().header.title
+        val siteTitle = siteConfigurationService.getSetting().title
 
         model.addAttribute("title", article.title)
         model.addAttribute("site", siteTitle)
