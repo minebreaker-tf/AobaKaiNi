@@ -57,7 +57,7 @@ class FileReadableTest {
         val data = """{"title":"foo"}"""
         write(data)
 
-        val res = fileReadable!!.readSetting(file!!, PageSetting::class.java)
+        val res = fileReadable!!.readJson(file!!, PageSetting::class.java)
 
         assertThat(res.title, `is`("foo"))
     }

@@ -1,18 +1,32 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <!--/*@thymesVar id="title" type="java.lang.String"*/-->
     <title th:text="${title}" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="stylesheet" href="/index.css" />
+
 </head>
+
 <body>
 
 <div>
+    <div>
+        <!--/*@thymesVar id="site" type="java.lang.String"*/-->
+        <p th:text="${site}" />
+    </div>
     <!--/*@thymesVar id="content" type="java.lang.String"*/-->
     <div th:utext="${content}" />
 </div>
 
-<!--/*@thymesVar id="url" type="java.lang.String"*/-->
-<p th:text="'URL: ' + ${url} " />
 </body>
+
+<script src="/index.js"></script>
+
 </html>
