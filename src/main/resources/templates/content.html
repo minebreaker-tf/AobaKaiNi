@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--/*@thymesVar id="title" type="java.lang.String"*/-->
+    <title th:text="${title}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div>
+    <!--/*@thymesVar id="content" type="java.lang.String"*/-->
+    <div th:utext="${content}" />
+</div>
+
+<!--/*@thymesVar id="url" type="java.lang.String"*/-->
+<p th:text="'URL: ' + ${url} " />
+</body>
+</html>
