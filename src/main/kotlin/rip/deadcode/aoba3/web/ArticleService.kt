@@ -7,6 +7,7 @@ import rip.deadcode.aoba3.model.PageSetting
 import rip.deadcode.aoba3.util.FileReadable
 import rip.deadcode.aoba3.util.Strings2
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 
 /**
@@ -29,7 +30,7 @@ class ArticleServiceImpl(
 ) : ArticleService, FileReadable {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val base = Paths.get(config.content)
+    private val base = Paths.get(config.content).toAbsolutePath()
 
     override fun serve(pathParam: String): Article {
 
@@ -39,6 +40,7 @@ class ArticleServiceImpl(
 
         val settingPath = base.resolve(path + ".json")
         val contentPath = base.resolve(path + ".md")
+        checkSafePath(contentPath)
         logger.info("Read content: {}", contentPath.toAbsolutePath().toString())
         if (!Files.exists(settingPath) || !Files.exists(contentPath)) {
             return Article("", "")
@@ -58,6 +60,13 @@ class ArticleServiceImpl(
         val contentPath = base.resolve(path)
         logger.info("Read content: {}", contentPath.toAbsolutePath().toString())
         return read(contentPath)
+    }
+
+    private fun checkSafePath(path: Path) {
+        val isSafe = path.toAbsolutePath().toString().contains(base.toString(), true)
+        if (!isSafe) {
+            throw RuntimeException("Unsafe path: " + path)
+        }
     }
 
 }
