@@ -49,7 +49,7 @@ class FileReadableTest {
 
         val res = fileReadable!!.readMarkdown(file!!)
 
-        assertThat(res, `is`("<h1>test</h1><p><em>ITALIC</em><strong>BOLD</strong></p>"))
+        assertThat(res, `is`("<h1>test</h1>\n<p><em>ITALIC</em>\n<strong>BOLD</strong></p>\n"))
     }
 
     @Test
