@@ -39,14 +39,14 @@ class ArticleServiceImpl(
 
     override fun serve(pathParam: String): Article {
 
-        logger.info("PathParam: {}", pathParam)
+        logger.debug("PathParam: {}", pathParam)
 
         val path = Strings2.dropFirst(pathParam, "/")
         if (withExt.matches(path)) {
             val resourceFile = base.resolve(path)
             if (Files.exists(resourceFile)) {
                 val ext = withExt.matchEntire(path)!!.groups["ext"]!!.value
-                logger.info("Ext: {}", ext)
+                logger.debug("Ext: {}", ext)
                 return Article("", "", FileSystemResource(resourceFile.toFile()), MediaTypes.extToContentType(ext))
             } else {
                 return Article("", "")
@@ -56,7 +56,7 @@ class ArticleServiceImpl(
         val settingPath = base.resolve(path + ".json")
         val contentPath = base.resolve(path + ".md")
         checkSafePath(contentPath)
-        logger.info("Requested content: {}", contentPath.toAbsolutePath().toString())
+        logger.debug("Requested content: {}", contentPath.toAbsolutePath().toString())
         if (!Files.exists(settingPath) || !Files.exists(contentPath)) {
             return Article("", "")
         }

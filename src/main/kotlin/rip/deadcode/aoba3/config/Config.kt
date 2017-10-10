@@ -9,3 +9,7 @@ import org.springframework.stereotype.Component
 @Component
 @ConfigurationProperties(prefix = "aoba3")
 open class Config(var content: String = "")
+
+@Component
+@ConfigurationProperties(prefix = "server")
+open class ServerConfig(var contextPath: String = "", var port: Int = -1)

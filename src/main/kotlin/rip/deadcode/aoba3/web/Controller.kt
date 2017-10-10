@@ -54,7 +54,7 @@ class Controller(
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun notFound(model: Model): String {
 
-        val article = articleService.serve("404")
+        val article = articleService.serve("/404")
 
         if (article.content.isEmpty()) {
             return "404"  // Fall back to default 404 page.
