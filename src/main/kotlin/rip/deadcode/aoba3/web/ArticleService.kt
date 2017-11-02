@@ -71,7 +71,7 @@ class ArticleServiceImpl(
     }
 
     private fun checkSafePath(path: Path) {
-        val isSafe = path.toAbsolutePath().toString().contains(base.toString(), true)
+        val isSafe = path.toAbsolutePath().normalize().toString().contains(base.toString(), true)
         if (!isSafe) {
             throw RuntimeException("Unsafe path: " + path)
         }
