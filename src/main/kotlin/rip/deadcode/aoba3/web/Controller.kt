@@ -1,6 +1,5 @@
 package rip.deadcode.aoba3.web
 
-import org.slf4j.LoggerFactory
 import org.springframework.boot.context.config.ResourceNotFoundException
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
@@ -21,8 +20,7 @@ class Controller(
         private val siteConfigurationService: SiteConfigurationService,
         private val config: Config) {
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
-    private val siteTitle = siteConfigurationService.getSetting().title
+    private val site = siteConfigurationService.getSetting().site
 
     @RequestMapping("/internal")
     fun internal(request: HttpServletRequest): ResponseEntity<Resource> {
@@ -46,7 +44,7 @@ class Controller(
         }
 
         model.addAttribute("title", article.title)
-        model.addAttribute("site", siteTitle)
+        model.addAttribute("site", site)
         model.addAttribute("content", article.content)
         model.addAttribute("url", request.requestURI)
         model.addAttribute("production", config.production)
@@ -64,7 +62,7 @@ class Controller(
         }
 
         model.addAttribute("title", article.title)
-        model.addAttribute("site", siteTitle)
+        model.addAttribute("site", site)
         model.addAttribute("content", article.content)
         model.addAttribute("production", config.production)
         return "content"

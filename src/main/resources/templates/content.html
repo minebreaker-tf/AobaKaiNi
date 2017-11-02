@@ -3,7 +3,8 @@
 
 <head>
     <!--/*@thymesVar id="title" type="java.lang.String"*/-->
-    <title th:text="${title}" />
+    <!--/*@thymesVar id="site" type="java.lang.String"*/-->
+    <title th:text="${title} + ' - ' + ${site}" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <!--/* Search console */-->
