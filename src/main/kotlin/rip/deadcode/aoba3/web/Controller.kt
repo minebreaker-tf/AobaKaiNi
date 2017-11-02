@@ -12,12 +12,14 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
+import rip.deadcode.aoba3.config.Config
 import javax.servlet.http.HttpServletRequest
 
 @Controller
 class Controller(
         private val articleService: ArticleService,
-        private val siteConfigurationService: SiteConfigurationService) {
+        private val siteConfigurationService: SiteConfigurationService,
+        private val config: Config) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val siteTitle = siteConfigurationService.getSetting().title
@@ -47,6 +49,7 @@ class Controller(
         model.addAttribute("site", siteTitle)
         model.addAttribute("content", article.content)
         model.addAttribute("url", request.requestURI)
+        model.addAttribute("production", config.production)
         return "content"
     }
 
@@ -63,6 +66,7 @@ class Controller(
         model.addAttribute("title", article.title)
         model.addAttribute("site", siteTitle)
         model.addAttribute("content", article.content)
+        model.addAttribute("production", config.production)
         return "content"
     }
 

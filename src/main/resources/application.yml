@@ -3,4 +3,5 @@ server.port: 8080
 spring.mvc.favicon.enabled: false
 
 aoba3:
-  content: content
+    production: false
+    content: content
