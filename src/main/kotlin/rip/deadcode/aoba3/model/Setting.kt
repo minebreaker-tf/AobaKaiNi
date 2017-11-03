@@ -6,12 +6,28 @@ package rip.deadcode.aoba3.model
 data class Setting(
 
         /**
-         * Title shown. Used for HTML title tag.
+         * Site title shown. Used for HTML title tag.
          */
         val site: String,
 
         /**
          * Notification header.
          */
-        val notification: String
+        val notification: String,
+
+        /**
+         * Breadcrumb setting.
+         */
+        val breadcrumb: Breadcrumb
+)
+
+/**
+ * Configuration for Breadcrumb.
+ */
+data class Breadcrumb(
+
+        /**
+         * Splitter String of each path element.
+         */
+        val splitter: String
 )

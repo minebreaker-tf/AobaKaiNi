@@ -1,3 +1,6 @@
 {
-  "site": "Aoba KaiNi"
+    "site": "Aoba KaiNi",
+    "breadcrumb": {
+        "splitter": " / "
+    }
 }

@@ -46,6 +46,7 @@ class Controller(
         model.addAttribute("title", article.title)
         model.addAttribute("site", site)
         model.addAttribute("content", article.content)
+        model.addAttribute("breadcrumb", article.breadcrumb)
         model.addAttribute("url", request.requestURI)
         model.addAttribute("production", config.production)
         return "content"

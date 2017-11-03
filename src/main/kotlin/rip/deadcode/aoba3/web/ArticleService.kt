@@ -1,5 +1,6 @@
 package rip.deadcode.aoba3.web
 
+import com.google.common.annotations.VisibleForTesting
 import com.google.common.cache.CacheBuilder
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.FileSystemResource
@@ -32,12 +33,14 @@ interface ArticleService {
 
 @Service
 class ArticleServiceImpl(
-        private val config: Config
+        private val config: Config,
+        private val siteConfigService: SiteConfigurationService
 ) : ArticleService, FileReadable {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val base = Paths.get(config.content).toAbsolutePath()
     private val withExt = Regex("^.*\\.(?<ext>[a-zA-Z0-9]+)$")
+    private val siteConfig = siteConfigService.getSetting()
 
     // TODO move to configuration
     private val settingCache = CacheBuilder.newBuilder()
@@ -59,9 +62,9 @@ class ArticleServiceImpl(
             if (Files.exists(resourceFile)) {
                 val ext = withExt.matchEntire(path)!!.groups["ext"]!!.value
                 logger.debug("Ext: {}", ext)
-                return Article("", "", FileSystemResource(resourceFile.toFile()), MediaTypes.extToContentType(ext))
+                return Article("", "", "", FileSystemResource(resourceFile.toFile()), MediaTypes.extToContentType(ext))
             } else {
-                return Article("", "")
+                return Article("", "", "")
             }
         }
 
@@ -70,18 +73,18 @@ class ArticleServiceImpl(
         checkSafePath(contentPath)
         logger.debug("Requested content: {}", contentPath.toAbsolutePath().toString())
         if (!Files.exists(settingPath) || !Files.exists(contentPath)) {
-            return Article("", "")
+            return Article("", "", "")
         }
 
         val setting = settingCache.get(settingPath, {
-            logger.info("read!")
             readJson(settingPath, PageSetting::class.java)
         })
         val content = contentCache.get(contentPath, { readMarkdown(contentPath) })
+        val breadcrumb = parsePathToBreadcrumb(path, setting.title)
 
         logger.debug("Setting: {} Content: {}", setting, content)
 
-        return Article(content, setting.title)
+        return Article(content, setting.title, breadcrumb)
     }
 
     private fun checkSafePath(path: Path) {
@@ -91,6 +94,36 @@ class ArticleServiceImpl(
         }
     }
 
+    /**
+     * Parse given path into the breadcrumb html string.
+     */
+    @VisibleForTesting
+    internal fun parsePathToBreadcrumb(pathString: String, pageName: String): String {
+        val pathElements = pathString.split("/")
+        val paths: List<String> = (1 until pathElements.size)  // last index (= current page) should not be shown
+                .map { i -> pathElements.subList(0, i) }
+                .map { eachPathElements ->
+                    val pathStr = eachPathElements.joinToString("/")
+                    val path = base.resolve(pathStr)
+                    if (Files.exists(path.resolve("index.md")) && Files.exists(path.resolve("index.json")))
+                        if (pathElements.last() == "index")  // index page should not be shown
+                            ""
+                        else
+                            """<a href="/$pathStr/index">${eachPathElements.last()}</a>"""
+                    else
+                        eachPathElements.last()
+                }
+                .filter { s -> !s.isEmpty() }
+        return (listOf("<a href=\"/\">${siteConfig.site}</a>") + paths + pageName)
+                .joinToString(siteConfig.breadcrumb.splitter)
+    }
+
 }
 
-data class Article(val content: String, val title: String, val resource: Resource? = null, val contentType: MediaType? = null)
+data class Article(
+        val content: String,
+        val title: String,
+        val breadcrumb: String,
+        val resource: Resource? = null,
+        val contentType: MediaType? = null
+)
