@@ -64,3 +64,12 @@ JVM向け軽量CMS
 <!-- TODO Not implemented yet
 #### /search
 -->
+
+
+## 3. Misc
+### パンくずリスト
+階下にindexファイルがある場合、パンくずリストのリンクが有効になる。
+TODO ファイル名をコンフィグJSONから読むようにする
+
+### サイトマップ
+`/sitemap.txt`にテキスト・サイトマップが生成される

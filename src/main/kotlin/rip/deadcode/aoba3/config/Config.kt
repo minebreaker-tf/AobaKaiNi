@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component
 @ConfigurationProperties(prefix = "aoba3")
 open class Config(var content: String = "", var url: String = "", var production: Boolean = false)
 
+/**
+ * Configuration about server.
+ */
 @Component
 @ConfigurationProperties(prefix = "server")
 open class ServerConfig(var contextPath: String = "", var port: Int = -1)
