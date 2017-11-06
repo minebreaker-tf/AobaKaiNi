@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @ConfigurationProperties(prefix = "aoba3")
-open class Config(var content: String = "", var production: Boolean = false)
+open class Config(var content: String = "", var url: String = "", var production: Boolean = false)
 
 @Component
 @ConfigurationProperties(prefix = "server")

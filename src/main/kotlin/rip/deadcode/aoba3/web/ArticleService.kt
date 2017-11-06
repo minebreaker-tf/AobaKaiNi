@@ -96,6 +96,8 @@ class ArticleServiceImpl(
 
     /**
      * Parse given path into the breadcrumb html string.
+     * TODO トップページでは表示しない
+     * TODO なんかindexだとおかしくなる
      */
     @VisibleForTesting
     internal fun parsePathToBreadcrumb(pathString: String, pageName: String): String {

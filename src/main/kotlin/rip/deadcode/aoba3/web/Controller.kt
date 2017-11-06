@@ -18,10 +18,14 @@ import javax.servlet.http.HttpServletRequest
 class Controller(
         private val articleService: ArticleService,
         private val siteConfigurationService: SiteConfigurationService,
+        private val siteMapService: SiteMapService,
         private val config: Config) {
 
     private val site = siteConfigurationService.getSetting().site
 
+    /**
+     * Internal url that returns static file assets.
+     */
     @RequestMapping("/internal")
     fun internal(request: HttpServletRequest): ResponseEntity<Resource> {
         val resource = request.getAttribute("resource") as Resource
@@ -30,6 +34,9 @@ class Controller(
         return ResponseEntity(resource, responseHeaders, HttpStatus.OK)
     }
 
+    /**
+     * General handler.
+     */
     @RequestMapping("/**")
     fun content(request: HttpServletRequest, model: Model): String {
 
@@ -52,6 +59,17 @@ class Controller(
         return "content"
     }
 
+    /**
+     * Returns sitemap.
+     */
+    @RequestMapping("/sitemap.txt")
+    fun sitemap(): ResponseEntity<String> {
+        return ResponseEntity(siteMapService.generate(), HttpStatus.OK)
+    }
+
+    /**
+     * Handles 404.
+     */
     @ExceptionHandler(ResourceNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun notFound(model: Model): String {

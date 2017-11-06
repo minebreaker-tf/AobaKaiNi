@@ -1,7 +1,7 @@
-server.contextPath: /
 server.port: 8080
 spring.mvc.favicon.enabled: false
 
 aoba3:
     production: false
+    url: http://localhost:8080
     content: content
