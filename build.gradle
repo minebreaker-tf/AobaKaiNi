@@ -38,7 +38,7 @@ dependencies {
 //            'org.jetbrains.xodus:xodus-vfs:1.0.6',
 //            'org.jetbrains.xodus:xodus-lucene-directory:1.0.6',
 
-            'com.google.guava:guava:22.0',
+            'com.google.guava:guava:23.4-jre',
 //            'com.google.code.findbugs:jsr305:2.0.1',
             'com.google.code.gson:gson:2.8.0',
             'com.vladsch.flexmark:flexmark-all:0.22.16',
